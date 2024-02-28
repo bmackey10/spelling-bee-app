@@ -1,0 +1,23 @@
+[
+    {
+      "id": 0,
+      "letters": "balrmon",
+      "centerLetter": "r",
+      "pangram": "abnormal",
+      "words": "37"
+    },
+    {
+      "id": 1,
+      "letters": "eayglmp",
+      "centerLetter": "g",
+      "pangram": "gameplay",
+      "words": "33"
+    },
+    {
+      "id": 2,
+      "letters": "edmlnpu",
+      "centerLetter": "p",
+      "pangram": "pendulum",
+      "words": "55"
+    }
+  ]
