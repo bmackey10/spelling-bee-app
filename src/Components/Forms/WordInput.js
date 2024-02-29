@@ -53,7 +53,7 @@ const handleChange = (e) => {
 
 return (
     <div>
-        <div>{beeLetters.map((letter) => (<button value={letter} onClick={handleClick}>{letter}</button>))}</div>
+        <div>{beeLetters.map((letter) => (<button type="button" value={letter} onClick={handleClick}>{letter}</button>))}</div>
         <form onSubmit={handleSubmit}>
             <input type="text" value={inputWord} onChange={handleChange} />
             <input type="submit" value="Submit"/>

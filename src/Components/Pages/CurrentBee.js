@@ -1,4 +1,4 @@
-import WordInput from "../Components/WordInput.js";
+import WordInput from "../Forms/WordInput.js";
 import { useState, useEffect } from "react";
 
 const vowels = ["a", "e", "i", "o", "u"];
