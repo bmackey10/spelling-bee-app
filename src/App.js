@@ -4,6 +4,10 @@ import Home from "./Pages/Home.js";
 import CurrentBee from "./Pages/CurrentBee";
 import PastBees from "./Pages/PastBees";
 import Header from "./Components/Header";
+import Parse from "parse";
+
+Parse.initialize(Env.APPLICATION_ID, Env.JAVASCRIPT_KEY);
+Parse.serverURL = Env.SERVER_URL;
 
 const App = () => {
   return (

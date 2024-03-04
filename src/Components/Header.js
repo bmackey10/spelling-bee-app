@@ -8,10 +8,7 @@ const Footer = () => (
           <Link to="/">Home</Link>
         </li>
         <li>
-          <Link to="/current">Today's Spelling Bee</Link>
-        </li>
-        <li>
-          <Link to="/past">Previous Spelling Bees</Link>
+          <Link to="/current">Play</Link>
         </li>
       </ul>
     </nav>
