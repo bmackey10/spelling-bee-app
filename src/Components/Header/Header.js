@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import SpellingBeeCardIcon from "../../Icons/spelling-bee-card-icon.svg";
+//import SpellingBeeCardIcon from "../../Icons/spelling-bee-card-icon.svg";
 
 const Header = () => (
   <footer>
