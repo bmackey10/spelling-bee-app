@@ -1,20 +1,13 @@
 import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-<<<<<<< HEAD
-import Home from "./Pages/Home.js";
-import CurrentBee from "./Pages/CurrentBee";
-import PastBees from "./Pages/PastBees";
-import Header from "./Components/Header";
+import * as Env from "./environments";
+import Home from "./Components/Pages/Home.js";
+import Header from "./Components/Header/Header.js";
+import BeeList from "./Components/Pages/BeeList.js";
 import Parse from "parse";
 
 Parse.initialize(Env.APPLICATION_ID, Env.JAVASCRIPT_KEY);
 Parse.serverURL = Env.SERVER_URL;
-=======
-import Home from "./Components/Pages/Home.js";
-import CurrentBee from "./Components/Pages/CurrentBee";
-import PastBees from "./Components/Pages/PastBees";
-import Header from "./Components/Header/Header.js";
->>>>>>> 672e0c4b3157d2b21af69e13744aed5df360c46a
 
 const App = () => {
   return (
@@ -22,8 +15,7 @@ const App = () => {
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/current" element={<CurrentBee />} />
-        <Route path="/past" element={<PastBees />} />
+        <Route path="/play" element={<BeeList />} />
       </Routes>
     </Router>
   )
