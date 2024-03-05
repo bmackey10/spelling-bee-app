@@ -3,24 +3,38 @@ import Parse from "parse";
 
 /* READ Operation - get Bee Solution by ID */
 export const getBeeSolutionById = (id) => {
-    const BeeSolution = Parse.Object.extend("BeeSolution");
-    const query = new Parse.Query(BeeSolution);
+    const BeeSolutions = Parse.Object.extend("BeeSolutions");
+    const query = new Parse.Query(BeeSolutions);
     return query.get(id).then((result) => {
       // return Bee Solution object with objectId: id
       return result;
     });
 };
 
-export let BeeSolutions = {};
-BeeSolutions.collection = [];
+export let BeeSolutionsColl = {};
+BeeSolutionsColl.collection = [];
 
 /* READ Operation - get all Bee Solutions in Parse class Bee Solutions */
 export const getAllBeeSolutions = () => {
-    const BeeSolution = Parse.Object.extend("BeeSolution");
-    const query = new Parse.Query(BeeSolution);
+    const BeeSolutions = Parse.Object.extend("BeeSolutions");
+    const query = new Parse.Query(BeeSolutions);
     return query.find().then((results) => {
       console.log("results: ", results);
       // returns array of Bee Solution objects
       return results;
     });
+};
+
+/* READ Operation - get all Bee Solutions with a particular beeID in Parse class Bee Solutions */
+export const getAllBeeSolutionsByBeeID = (beeID) => {
+  const BeeSolutions = Parse.Object.extend("BeeSolutions");
+  const query = new Parse.Query(BeeSolutions);
+  query.equalTo("BeeID", beeID); // Assuming 'BeeID' is the field that relates to the specific bee
+  return query.find().then((results) => {
+      // Returns array of BeeSolutions objects that have the specified BeeID
+      return results;
+  }).catch((error) => {
+      // Handle any errors that occur
+      console.error("Error getting BeeSolutions by BeeID: ", error);
+  });
 };

@@ -1,55 +1,28 @@
-import WordInput from "../Forms/WordInput.js";
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { getSpellingBeeByID } from "../Services/SpellingBees.js"
+import WordInput from "../Forms/WordInput.js";
 
-const vowels = ["a", "e", "i", "o", "u"];
-const consonants = [
-  "b",
-  "c",
-  "d",
-  "f",
-  "g",
-  "h",
-  "j",
-  "k",
-  "l",
-  "m",
-  "n",
-  "p",
-  "q",
-  "r",
-  "s",
-  "t",
-  "v",
-  "w",
-  "x",
-  "y",
-  "z",
-];
+/* Get the letters for the particular spelling bee the user chose */
+const SpellingBee = (beeID) => {
+  const [beeLetters, setBeeLetters] = useState([]);
 
-function getRandomInt(max) {
-  return Math.floor(Math.random() * max);
-}
-
-const SpellingBee = () => {
-  const [beeLetters, setLetters] = useState([]);
-  let { date } = useParams();
-
-  console.log(date);
-
-  // Later will add in "center letter" and protect against repeat letters
-  // Later will add in protection to ensure a pangram is possible
-  // Is there an easier way to do this?
   useEffect(() => {
-    setLetters([
-      vowels[getRandomInt(vowels.length)],
-      vowels[getRandomInt(vowels.length)],
-      consonants[getRandomInt(consonants.length)],
-      consonants[getRandomInt(consonants.length)],
-      consonants[getRandomInt(consonants.length)],
-      consonants[getRandomInt(consonants.length)],
-      consonants[getRandomInt(consonants.length)],
-    ]);
+    // Use the ID to get the specific Spelling Bee
+    getSpellingBeeById(beeID).then((spellingBee) => {
+      // Extract the letters and update state
+      setBeeLetters([
+        spellingBee.get('letterOne'),
+        spellingBee.get('letterTwo'),
+        // ... Add the rest of the letters in the same manner
+        spellingBee.get('letterThree'),
+        spellingBee.get('letterFour'),
+        spellingBee.get('letterFive'),
+        spellingBee.get('letterSix'),
+        spellingBee.get('centerLetter'),
+      ]);
+    }).catch((error) => {
+      console.error('Error fetching Spelling Bee by ID:', error);
+    });
   }, []);
 
   return (
