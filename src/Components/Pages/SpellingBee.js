@@ -1,5 +1,6 @@
 import WordInput from "../Forms/WordInput.js";
 import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 
 const vowels = ["a", "e", "i", "o", "u"];
 const consonants = [
@@ -30,8 +31,11 @@ function getRandomInt(max) {
   return Math.floor(Math.random() * max);
 }
 
-const CurrentBee = () => {
+const SpellingBee = () => {
   const [beeLetters, setLetters] = useState([]);
+  let { date } = useParams();
+
+  console.log(date);
 
   // Later will add in "center letter" and protect against repeat letters
   // Later will add in protection to ensure a pangram is possible
@@ -55,4 +59,4 @@ const CurrentBee = () => {
   );
 };
 
-export default CurrentBee;
+export default SpellingBee;
