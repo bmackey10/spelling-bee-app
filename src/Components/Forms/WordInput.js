@@ -21,27 +21,27 @@ function getResult(dictResult, inputResult) {
     }
 }
 
-const handleClick = (e) => {
-    e.preventDefault();
-    setInputWord(inputWord.concat(e.target.value));
-};
+// const handleClick = (e) => {
+//     e.preventDefault();
+//     setInputWord(inputWord.concat(e.target.value));
+// };
 
-const handleSubmit = (e) => {
-    e.preventDefault();
-    setInputResult(
-    inputWord
-        .split("")
-        .reduce(
-            (accumulator, letter) => accumulator && beeLetters.includes(letter), true)
-    );
-    getWord(inputWord).then((result) => {
-        setDictResult(result);
-    });
-};
+// const handleSubmit = (e) => {
+//     e.preventDefault();
+//     setInputResult(
+//     inputWord
+//         .split("")
+//         .reduce(
+//             (accumulator, letter) => accumulator && beeLetters.includes(letter), true)
+//     );
+//     getWord(inputWord).then((result) => {
+//         setDictResult(result);
+//     });
+// };
 
-const handleChange = (e) => {
-    setInputWord(e.currentTarget.value);
-};
+// const handleChange = (e) => {
+//     setInputWord(e.currentTarget.value);
+// };
 
 // Originally had ButtonInput pulled out into component and used in Spelling.js
 // BUT realized needed to keep it here for button interaction (for now??)
@@ -49,9 +49,9 @@ const handleChange = (e) => {
 
 return (
     <div>
-        <div>{beeLetters.map((letter) => (<button type="button" value={letter} onClick={handleClick}>{letter}</button>))}</div>
-        <form onSubmit={handleSubmit}>
-            <input type="text" value={inputWord} onChange={handleChange} />
+        <div>{beeLetters.map((letter) => (<button type="button" value={letter} /*onClick={handleClick}*/>{letter}</button>))}</div>
+        <form /* onSubmit={handleSubmit} */ >
+            <input type="text" value={inputWord} /* onChange={handleChange} */ />
             <input type="submit" value="Submit"/>
         </form>
         <ResultInput dictResult={dictResult} inputResult={inputResult} getResult={getResult} inputWord={inputWord}/>
