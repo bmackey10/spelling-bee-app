@@ -18,21 +18,13 @@ const BeeList = ({ spellingBees }) => {
                     const year = beeDate.getFullYear(); // Get the year
 
                     // Format the date as DD/MM/YYYY. Modify as needed for different formats
-                    const formattedDate = `${dayOfMonth}/${month}/${year}`;
-                    const routeDate = `${dayOfMonth}${month}${year}`;
+                    const formattedDate = `${month}/${dayOfMonth}/${year}`;
+                    const routeDate = `${month}${dayOfMonth}${year}`;
 
                     return (
-<<<<<<< HEAD
-                        <div>
-                            <li key={spellingBee.objectId}>
-                                {formattedDate}
-                            </li>
-                        </div>
-=======
                       <li key={spellingBee.objectId}>
                         <Link to={"/spelling-bee/" + routeDate}>Play: {formattedDate}</Link>
                       </li>
->>>>>>> 34320d496d136ea0a6a8c1b787497260aa081565
                     );
                 })}
             </ul>
