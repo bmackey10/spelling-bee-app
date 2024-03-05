@@ -9,6 +9,7 @@ const BeeList = ({ spellingBees }) => {
             <ul>
                 {spellingBees.map((spellingBee) => {
                     // Get the spelling bee date
+                    //const objectID =  spellingBee.get("objectId");
                     const beeDate = new Date(spellingBee.get("beeDate"));
                     const dayOfMonth = beeDate.getDate(); // Get the day of the month
                     const month = beeDate.getMonth() + 1; // Get the month (getMonth() returns 0-11 so add 1)
@@ -18,9 +19,11 @@ const BeeList = ({ spellingBees }) => {
                     const formattedDate = `${dayOfMonth}/${month}/${year}`;
 
                     return (
-                      <li key={spellingBee.objectId}>
-                        {formattedDate}
-                      </li>
+                        <div>
+                            <li key={spellingBee.objectId}>
+                                {formattedDate}
+                            </li>
+                        </div>
                     );
                 })}
             </ul>
