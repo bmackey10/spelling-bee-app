@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 //import SpellingBeeCardIcon from "../../Icons/spelling-bee-card-icon.svg";
 
+/* Links to home page or list of possible spelling bees */
 const Header = () => (
   <footer>
     <nav>
@@ -9,7 +10,7 @@ const Header = () => (
           <Link to="/">Home</Link>
         </li>
         <li>
-          <Link to="/play">List of Spelling Bees</Link>
+          <Link to="/play">Play</Link>
         </li>
       </ul>
     </nav>

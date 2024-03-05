@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import * as Env from "./environments";
 import Header from "./Components/Header/Header.js";
 import Home from "./Components/Pages/Home.js";
-import BeeList from "./Components/Pages/BeeList.js";
+import Play from "./Components/Pages/Play.js";
 import Parse from "parse";
 
 Parse.initialize(Env.APPLICATION_ID, Env.JAVASCRIPT_KEY);
@@ -15,7 +15,7 @@ const App = () => {
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/play" element={<BeeList />} />
+        <Route path="/play" element={<Play />} />
       </Routes>
     </Router>
   )

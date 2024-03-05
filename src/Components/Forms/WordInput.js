@@ -1,11 +1,9 @@
 import { useState } from "react";
-import { getWord } from "../Services/GetWord.js";
 import ResultInput from "./ResultInput.js";
 
 /*
 - handles the word inputted by the user (either by text input or button clicks)
-- checks if the word inputted by the user exists in the dictionary
-- stateful component
+- checks if the word inputted by the user is one of the solutions
 */
 
 const WordInput = ({ beeLetters }) => {
@@ -34,12 +32,10 @@ const handleSubmit = (e) => {
     inputWord
         .split("")
         .reduce(
-        (accumulator, letter) => accumulator && beeLetters.includes(letter),
-        true
-        )
+            (accumulator, letter) => accumulator && beeLetters.includes(letter), true)
     );
     getWord(inputWord).then((result) => {
-    setDictResult(result);
+        setDictResult(result);
     });
 };
 
