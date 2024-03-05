@@ -1,8 +1,8 @@
 import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import * as Env from "./environments";
-import Home from "./Components/Pages/Home.js";
 import Header from "./Components/Header/Header.js";
+import Home from "./Components/Pages/Home.js";
 import BeeList from "./Components/Pages/BeeList.js";
 import Parse from "parse";
 
