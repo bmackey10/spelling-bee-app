@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 /* 
 - List of all spelling Bees displayed by their date 
 - Should to the respective puzzle
@@ -16,10 +18,11 @@ const BeeList = ({ spellingBees }) => {
 
                     // Format the date as DD/MM/YYYY. Modify as needed for different formats
                     const formattedDate = `${dayOfMonth}/${month}/${year}`;
+                    const routeDate = `${dayOfMonth}${month}${year}`;
 
                     return (
                       <li key={spellingBee.objectId}>
-                        {formattedDate}
+                        <Link to={"/spelling-bee/" + routeDate}>Play: {formattedDate}</Link>
                       </li>
                     );
                 })}
