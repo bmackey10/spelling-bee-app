@@ -12,16 +12,17 @@ Parse.serverURL = Env.SERVER_URL;
 
 const App = () => {
   return (
+    <div className="h-screen">
     <Router>
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/play" element={<Play />} />
         <Route path="/spelling-bee/:beeId" element={<SpellingBee />}>
-          {/*<Route path=":beeId" element={<SpellingBee />}/>*/}
         </Route>
       </Routes>
     </Router>
+    </div>
   )
 }
 

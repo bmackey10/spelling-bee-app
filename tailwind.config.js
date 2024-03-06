@@ -2,10 +2,14 @@
 module.exports = {
   content: ["./src/**/*.js"],
   theme: {
-    colors: {
-      'bee-yellow': '#f7da00'
+    extend: {
+      colors: {
+        'bee-yellow': '#f7da00'
+      },
+      fontFamily: {
+        'zilla-slab': ['"Zilla Slab"', 'sans-serif']
+      },
     },
-    extend: {},
   },
   plugins: [],
 }
