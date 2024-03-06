@@ -17,8 +17,8 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/play" element={<Play />} />
-        <Route path="/spelling-bee/">
-          <Route path=":date" element={<SpellingBee />}/>
+        <Route path="/spelling-bee/:beeId" element={<SpellingBee />}>
+          {/*<Route path=":beeId" element={<SpellingBee />}/>*/}
         </Route>
       </Routes>
     </Router>
