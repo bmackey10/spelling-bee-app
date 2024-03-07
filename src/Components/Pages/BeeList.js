@@ -19,7 +19,7 @@ const BeeList = ({ spellingBees }) => {
 
               return (
                 <Link to={`/spelling-bee/${spellingBee.id}`}>
-                  <button type="button" className="border-2 border-black bg-black hover:bg-bee-yellow text-white hover:text-black rounded-full px-8 py-2 text-sm font-semibold">Play: {formattedDate}</button>
+                  <button type="button" className="border-2 border-black bg-black hover:bg-bee-yellow text-white hover:text-black rounded-full px-2 sm:px-8 py-2 text-sm font-semibold">Play: {formattedDate}</button>
                 </Link>
               );
           })}

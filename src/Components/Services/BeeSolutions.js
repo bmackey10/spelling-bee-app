@@ -29,7 +29,7 @@ export const getAllBeeSolutions = () => {
 export const getAllBeeSolutionsByBeeID = (beeID) => {
   const BeeSolutions = Parse.Object.extend("BeeSolutions");
   const query = new Parse.Query(BeeSolutions);
-  query.equalTo("BeeID", beeID); // Assuming 'BeeID' is the field that relates to the specific bee
+  query.equalTo("beeID", beeID); // Assuming 'beeID' is the field that relates to the specific bee
   return query.find().then((results) => {
       // Returns array of BeeSolutions objects that have the specified BeeID
       return results;
