@@ -1,5 +1,5 @@
 import './App.css';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import * as Env from "./environments";
 import Header from "./Components/Header/Header.js";
 import Home from "./Components/Pages/Home.js";
@@ -18,8 +18,8 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/play" element={<Play />} />
-        <Route path="/spelling-bee/:beeId" element={<SpellingBee />}>
-        </Route>
+        <Route path="/spelling-bee/:beeId" element={<SpellingBee />} />
+        <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </Router>
     </div>
