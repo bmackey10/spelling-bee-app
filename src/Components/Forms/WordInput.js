@@ -56,9 +56,9 @@ const WordInput = ({ beeLetters }) => {
 
 return (
     <div>
-        <div>{beeLetters.map((letter) => (<button type="button" value={letter} onClick={handleClick}>{letter}</button>))}</div>
+        <div>{beeLetters.map((letter) => (<button type="button" className="bg-slate-200 hover:bg-slate-300 text-black hover:text-black rounded-full px-2 py-2 text-sm font-semibold" value={letter} onClick={handleClick}>{letter}</button>))}</div>
         <form onSubmit={handleSubmit}>
-            <input type="text" value={inputWord} onChange={handleInputChange} />
+            <input type="text" value={inputWord} onChange={handleChange} />
             <input type="submit" value="Submit"/>
         </form>
         <ResultInput beeSolutions={beeSolutions} inputWord={inputWord} getResult={getResult}/>
