@@ -10,7 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Parse Models (SpellingBees and BeeSolutions) and functions for each model.
 - Routing to the various pages instead of using <a> tags.
 - Play page which lists various Spelling Bee puzzles by date that the user can choose to play.
-- CSS Styling (Tailwind) for the Home and Play Pages.
+- CSS Styling (Tailwind) for the Home, Play, and SpellingBee Pages.
  
 ### Changed
 - No longer rendering Past Spelling Bees as we thought this to be a redundant feature.
@@ -18,3 +18,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Game now checks if the word inputted by user is in BeeSolutions instead of just checking if it exists in the dictionary.
 
 ### Fixed
+
+
+### Current Errors
+- Refused to get unsafe header"access-control-expose-headers" printing to console.
+- 
