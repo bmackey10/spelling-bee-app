@@ -1,8 +1,8 @@
 const ResultInput = ({ beeSolutions, inputWord, getResult }) => {
     return (
-        <div>
-            <h5>The word you inputted: {inputWord}</h5>
-            <h5>{getResult(beeSolutions, inputWord)}</h5>
+        <div className="text-base font-semibold text-gray-600">
+            <p>The word you inputted: {inputWord}</p>
+            <p>{getResult(beeSolutions, inputWord)}</p>
         </div>
     );
 };

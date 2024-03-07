@@ -55,13 +55,27 @@ const WordInput = ({ beeLetters }) => {
     };
 
 return (
-    <div>
-        <div>{beeLetters.map((letter) => (<button type="button" className="bg-slate-200 hover:bg-slate-300 text-black hover:text-black rounded-full px-2 py-2 text-sm font-semibold" value={letter} onClick={handleClick}>{letter}</button>))}</div>
-        <form onSubmit={handleSubmit}>
-            <input type="text" value={inputWord} onChange={handleChange} />
-            <input type="submit" value="Submit"/>
-        </form>
-        <ResultInput beeSolutions={beeSolutions} inputWord={inputWord} getResult={getResult}/>
+    <div className="mx-auto max-w-2xl rounded-3xl ring-1 ring-gray-200 lg:flex lg:max-w-none">
+        <div className="p-8 sm:p-10 lg:flex-auto">
+            <form onSubmit={handleSubmit}>
+                <div className="flex flex-col gap-4">
+                    <div className="pl-24 mx-auto">
+                        <input type="text" value={inputWord} onChange={handleInputChange} placeholder="Type or click" className="caret-bee-yellow border-0 bg-transparent text-black placeholder:text-gray-400 focus:ring-0 text-lg"/>
+                    </div>
+                    <div className="flex flex-row justify-between">{beeLetters.map((letter) => (<button type="button" className="bg-slate-200 hover:bg-slate-300 text-black hover:text-black rounded-full px-4 py-2 text-sm font-semibold" value={letter} onClick={handleClick}>{letter}</button>))}</div>
+                    <div className="py-2 mx-auto">
+                        <button type="submit" className="w-min border-2 border-slate-200 bg-white hover:bg-slate-200 text-black hover:text-black rounded-full px-8 py-2 text-sm font-semibold">Enter</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div className="p-2 lg:mt-0 lg:w-full lg:max-w-md">
+            <div className="lg:h-full rounded-2xl bg-white py-10 text-center ring-1 ring-inset ring-gray-200 lg:flex lg:flex-col lg:justify-center">
+                <div className="mx-auto max-w-xs">
+                    <ResultInput beeSolutions={beeSolutions} inputWord={inputWord} getResult={getResult}/>
+                </div>
+            </div>
+        </div>
     </div>
 );
 };
