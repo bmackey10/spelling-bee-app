@@ -1,5 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ResultInput from "./ResultInput.js";
+import { getAllBeeSolutionsByBeeID } from "../Services/BeeSolutions.js"
+import { useParams } from "react-router-dom";
 
 /*
 - handles the word inputted by the user (either by text input or button clicks)
@@ -8,55 +10,58 @@ import ResultInput from "./ResultInput.js";
 
 const WordInput = ({ beeLetters }) => {
     const [inputWord, setInputWord] = useState("");
-    const [dictResult, setDictResult] = useState([]);
-    const [inputResult, setInputResult] = useState(null);
+    const { beeId } = useParams(); // beeId is the objectId from the URL
+    const [beeSolutions, setBeeSolutions] = useState([]);
 
-    function getResult(dictResult, inputResult) {
-        if (dictResult && dictResult.length > 0 && inputResult) {
+    useEffect(() => {
+        // Use the ID to get all the solutions for this specific spelling bee
+        getAllBeeSolutionsByBeeID(beeId).then((beeSolutions) => {
+            setBeeSolutions(beeSolutions);
+        }).catch((error) => {
+          console.error('Error fetching Spelling Bee Solutions by ID:', error);
+        });
+      }, [beeId]);
+
+    
+    // need to figure out how to check if the word doesn't use the correct letters
+    function getResult(beeSolutions, inputWord) {
+        if (beeSolutions.includes(inputWord)) {
         return "Great job! You found a word.";
-        } else if (inputResult && !dictResult) {
-        return "This word does not exist in the dictionary.";
-        } else if (inputResult === false) {
-        return "This word does not use the correct letters.";
-        }
+        } else {
+        return "This is not a word.";
+        } //else if () {
+        //return "This word does not use the correct letters.";
+       // }
     }
 
+    // allows users to form word with button clicks
     const handleClick = (e) => {
         e.preventDefault();
         setInputWord(inputWord.concat(e.target.value));
     };
 
-    // const handleSubmit = (e) => {
-    //     e.preventDefault();
-    //     setInputResult(
-    //     inputWord
-    //         .split("")
-    //         .reduce(
-    //         (accumulator, letter) => accumulator && beeLetters.includes(letter),
-    //         true
-    //         )
-    //     );
-    //     getWord(inputWord).then((result) => {
-    //     setDictResult(result);
-    //     });
-    // };
+    // allows users to form word by typing in textbox
+    const handleInputChange = (e) => {
+        setInputWord(e.target.value.toUpperCase());
+    };
 
-    // const handleChange = (e) => {
-    //     setInputWord(e.currentTarget.value);
-    // };
-
-// Originally had ButtonInput pulled out into component and used in Spelling.js
-// BUT realized needed to keep it here for button interaction (for now??)
-// Now Spelling.js is a bit empty looking
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        // Here is where we were checking the inputWord against a dictionary
+        // For now, let's just log it to the console
+        console.log(inputWord);
+        // Reset input word after submitting
+        setInputWord("");
+    };
 
 return (
     <div>
         <div>{beeLetters.map((letter) => (<button type="button" className="bg-slate-200 hover:bg-slate-300 text-black hover:text-black rounded-full px-2 py-2 text-sm font-semibold" value={letter} onClick={handleClick}>{letter}</button>))}</div>
-        <form /*onSubmit={handleSubmit}*/>
-            <input type="text" value={inputWord} /*onChange={handleChange}*/ />
+        <form onSubmit={handleSubmit}>
+            <input type="text" value={inputWord} onChange={handleChange} />
             <input type="submit" value="Submit"/>
         </form>
-        <ResultInput dictResult={dictResult} inputResult={inputResult} getResult={getResult} inputWord={inputWord}/>
+        <ResultInput beeSolutions={beeSolutions} inputWord={inputWord} getResult={getResult}/>
     </div>
 );
 };
