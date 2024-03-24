@@ -22,4 +22,22 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Current Errors
 - Refused to get unsafe header"access-control-expose-headers" printing to console.
-- 
+
+## [Unreleased] - 2024-03-24
+
+### Added
+- Authentication Module
+    - Authentication page with Login and Register buttons
+    - Login and Register Components (forms for email and password)
+    - Logout Button within Header that appears when authenticated
+- Parse Service with authentication methods including signup, login, and logout
+ 
+### Changed
+- Header now includes Logout button when user is authenticated
+
+### Fixed
+
+
+### Current Errors
+- Refused to get unsafe header"access-control-expose-headers" printing to console.
+- Warning about useEffect containing a call to setIsAuthenticated w/out a list of dependencies in Header
