@@ -1,42 +1,67 @@
 import Parse from 'parse';
 
 /* Get current user */
-export const getCurrentUser = async () => {
+export const getCurrentUser = () => {
     const currentUser = Parse.User.current();
     return currentUser;
 };
 
 /* Create a new user */
-export const createUser = async (firstName, lastName, email, password) => {
+export const createUser = (newUser) => {
     const user = new Parse.User();
-
-    user.set("firstName", firstName);
-    user.set("lastName", lastName);
-    user.set("email", email);
-    user.set("password", password);
-
-    await user.Signup();
+  
+    user.set("username", newUser.email);
+    user.set("firstName", newUser.firstName);
+    user.set("lastName", newUser.lastName);
+    user.set("password", newUser.password);
+    user.set("email", newUser.email);
+  
+    console.log("User: ", user);
+    return user
+      .signUp()
+      .then((newUserSaved) => {
+        return newUserSaved;
+      })
+      .catch((error) => {
+        alert(`Error: ${error.message}`);
+      });
 };
 
 /* Log the user in */
-export const loginUser = async (email, password) => {
-    try {
-        await Parse.User.logIn(email, password);
-    } catch (error) {
-        console.log('Error while logging in user: ', error);
-    }
+export const loginUser = (currUser) => {
+    const user = new Parse.User();
+  
+    user.set("password", currUser.password);
+    user.set("username", currUser.email);
+  
+    console.log("User: ", user);
+    console.log();
+    return user
+      .logIn(user.email, user.password)
+      .then((currUserSaved) => {
+        return currUserSaved;
+      })
+      .catch((error) => {
+        alert(`Error: ${error.message}`);
+      });
 };
 
 /* Log the user out */
-export const logoutUser = async () => {
-    try {
-        await Parse.User.logOut();
-    } catch (error) {
-        console.log('Error while logging out user: ', error);
-    }
-};
+export const logoutUser = () => {
+    return Parse.User.logOut()
+      .then(() => {
+        console.log('Successfully logged out');
+      })
+      .catch((error) => {
+        alert(`Error during logout: ${error.message}`);
+      });
+  };
 
 /* Check if the current user is authenticated */
-export const checkUser = async () => {
-    return Parse.User.current()?.authenticated;
+export const checkUser = () => {
+  return !!Parse.User.current(); // Returns true if there's a user, false otherwise
 };
+
+// export const checkUser = () => {
+//     return Parse.User.current()?.authenticated;
+// };
