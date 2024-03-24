@@ -1,7 +1,6 @@
 import React from "react";
 
 /* Form to login/register from Feature 5 Kickoff Solution */
-// Need to add CSS
 const AuthForm = ({ user, isLogin, onChange, onSubmit }) => {
   return (
     <div className="flex items-center justify-center min-h-screen bg-white py-12 px-4 sm:px-6 lg:px-8">
