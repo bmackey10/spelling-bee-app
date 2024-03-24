@@ -1,18 +1,47 @@
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from 'react';
+import { Link, useNavigate } from "react-router-dom";
+import { checkUser, logoutUser } from "../Auth/AuthService";
 import SpellingBeeCardIcon from "../../Icons/spelling-bee-card-icon.svg";
 
-/* Links to home page or list of possible spelling bees */
-const Header = () => (
+/* Header above every page with Logout button if user is authenticated (logged in) */
+const Header = () => {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const navigate = useNavigate();
 
-  <header className="bg-bee-yellow">
-    <nav className="mx-auto flex max-w-7xl items-center justify-center p-6 lg:px-8">
-        <Link to="/" className="text-sm font-semibold leading-6 text-gray-900 justify-center flex flex-row items-center gap-x-1">
+  useEffect(() => {
+    const isLoggedIn = checkUser();
+    setIsAuthenticated(isLoggedIn);
+  }); // Removed dependency array to check auth status on every component update
+
+  const handleLogout = () => {
+    logoutUser().then(() => {
+      setIsAuthenticated(false);
+      navigate('/auth');
+    }).catch((error) => {
+      console.error('Logout failed: ', error);
+    });
+  };
+
+  return (
+    <header className="bg-bee-yellow">
+      <nav className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8">
+        <div style={{ flex: 1 }}></div>
+
+        <Link to="/" className="text-sm font-semibold leading-6 text-gray-900 flex flex-row items-center justify-center" style={{ flex: 2 }}>
           <h1 className="text-xl font-zilla-slab">Mary and Brooke's Spelling Bee</h1>
           <img className="h-6 w-auto" src={SpellingBeeCardIcon} alt="" />
         </Link>
-    </nav>
-  </header>
 
-);
+        <div style={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>
+          {isAuthenticated && (
+            <button onClick={handleLogout} className="text-sm font-semibold leading-6 text-gray-900">
+              Logout
+            </button>
+          )}
+        </div>
+      </nav>
+    </header>
+  );
+};
 
 export default Header;
