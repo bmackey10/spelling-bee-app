@@ -64,6 +64,7 @@ const AuthRegister = () => {
         user={newUser}
         onChange={onChangeHandler}
         onSubmit={onSubmitHandler}
+        textValue={"Register for the Spelling Bee"}
       />
     </div>
   );

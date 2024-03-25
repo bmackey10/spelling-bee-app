@@ -34,8 +34,8 @@ const Header = () => {
 
         <div style={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>
           {isAuthenticated && (
-            <button onClick={handleLogout} className="text-sm font-semibold leading-6 text-gray-900">
-              Logout
+            <button onClick={handleLogout} className="border-2 border-black bg-black hover:bg-bee-yellow text-white hover:text-black rounded-full px-2 sm:px-8 py-2 text-sm font-semibold">
+              Log Out
             </button>
           )}
         </div>
