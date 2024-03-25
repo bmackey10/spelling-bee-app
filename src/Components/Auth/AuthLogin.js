@@ -64,6 +64,7 @@ const AuthLogin = () => {
         isLogin={true}
         onChange={onChangeHandler}
         onSubmit={onSubmitHandler}
+        textValue={"Log In to the Spelling Bee"}
       />
     </div>
   );
