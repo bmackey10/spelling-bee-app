@@ -23,9 +23,9 @@ const App = () => {
         <Route path="/auth" element={<AuthModule />} />
         <Route path="/auth/register" element={<AuthRegister />} />
         <Route path="/auth/login" element={<AuthLogin />} />
-        <Route path="/" element={<ProtectedRoute path="/" element={Home} />} />
-        <Route path="/play" element={<ProtectedRoute path="/" element={Play} />} />
-        <Route path="/spelling-bee/:beeId" element={<ProtectedRoute path="/" element={SpellingBee} />} />
+        <Route path="/" element={<ProtectedRoute element={Home} />} />
+        <Route path="/play" element={<ProtectedRoute element={Play} />} />
+        <Route path="/spelling-bee/:beeId" element={<ProtectedRoute element={SpellingBee} />} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </Router>
