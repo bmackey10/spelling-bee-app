@@ -30,6 +30,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
     - Authentication page with Login and Register buttons
     - Login and Register Components (forms for email and password)
     - Logout Button within Header that appears when authenticated
+    - Added logic to prevent user from accessing pages depending on their login status
 - Parse Service with authentication methods including signup, login, and logout
  
 ### Changed
