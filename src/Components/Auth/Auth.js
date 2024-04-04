@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { checkUser } from "./AuthService";
+import { checkUser } from "../Services/AuthService";
 import SpellingBeeCardIcon from "../../Icons/spelling-bee-card-icon.svg";
 
 /* Render Register and Login Modules */

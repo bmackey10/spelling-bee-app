@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from "react-router-dom";
-import { checkUser, logoutUser } from "../Auth/AuthService";
+import { checkUser, logoutUser } from "../Services/AuthService";
 import SpellingBeeCardIcon from "../../Icons/spelling-bee-card-icon.svg";
 
 /* Header above every page with Logout button if user is authenticated (logged in) */

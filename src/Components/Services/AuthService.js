@@ -1,8 +1,8 @@
 import Parse from 'parse';
 
 /* Get current user */
-export const getCurrentUser = () => {
-    const currentUser = Parse.User.current();
+export const getCurrentUser = async function () {
+    const currentUser = await Parse.User.current();
     return currentUser;
 };
 
@@ -61,7 +61,3 @@ export const logoutUser = () => {
 export const checkUser = () => {
   return !!Parse.User.current(); // Returns true if there's a user, false otherwise
 };
-
-// export const checkUser = () => {
-//     return Parse.User.current()?.authenticated;
-// };

@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
 import ResultInput from "./ResultInput.js";
-import { getAllBeeSolutionsByBeeID } from "../Services/BeeSolutions.js"
+import { getAllBeeSolutionsByBeeID, getSolutionPoints } from "../Services/BeeSolutions.js"
 import { useParams } from "react-router-dom";
 import { getSpellingBeeById } from "../Services/SpellingBees.js";
+import { addGuess, getAllUserGuessesByBeeID } from "../Services/UserAnswers.js";
+import { getCurrentUser } from "../Services/AuthService.js";
 
 /*
 - handles the word inputted by the user (either by text input or button clicks)
@@ -15,6 +17,8 @@ const WordInput = ({ beeLetters }) => {
     const [beeSolutions, setBeeSolutions] = useState([]);
     const [showResult, setShowResult] = useState(false);
     const [resultString, setResultString] = useState("");
+    const [userGuesses, setUserGuesses] = useState([]);
+    const [userPoints, setUserPoints] = useState(0);
 
     useEffect(() => {
         // Use the ID to get all the solutions for this specific spelling bee
@@ -24,14 +28,32 @@ const WordInput = ({ beeLetters }) => {
             }).catch((error) => {
                 console.error('Error fetching Spelling Bee Solutions by ID:', error);
             });
-        })
-      }, [beeId]);
+        });
+
+        getSpellingBeeById(beeId).then((spellingBee) => {
+            getCurrentUser().then((currUser) => {
+                getAllUserGuessesByBeeID(spellingBee, currUser).then((results) => {
+                        let pointSum = 0;
+                        let guessesArr = [];
+                        results.map((result) => {
+                            pointSum += result.get("pointsGiven");
+                            guessesArr.push(result.get("guess"))
+                        });
+                        setUserPoints(pointSum);
+                        setUserGuesses(guessesArr);
+                });
+            });
+        });
+
+    }, [beeId]);
 
     function getResult(inputWord) {
         if (beeSolutions.includes(inputWord)) {
             setResultString(`Great job! You found the word: ${inputWord}.`);
+            return true;
         } else {
             setResultString("This is not a word.");
+            return false;
         }
     }
 
@@ -51,7 +73,19 @@ const WordInput = ({ beeLetters }) => {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        getResult(inputWord)
+        if (getResult(inputWord)) {
+
+            getSpellingBeeById(beeId).then((spellingBee) => {
+                getSolutionPoints(spellingBee, inputWord).then((answerPoints) => {
+                    getCurrentUser().then((currUser) => {
+                        addGuess(currUser, spellingBee, answerPoints, inputWord);
+                        setUserPoints(userPoints + answerPoints);
+                        setUserGuesses(userGuesses.push(inputWord));
+                    })
+                })
+            })
+        }
+
         setShowResult(true); 
 
         setInputWord("");
@@ -77,6 +111,9 @@ return (
             <div className="lg:h-full rounded-2xl bg-white py-10 text-center ring-1 ring-inset ring-gray-200 lg:flex lg:flex-col lg:justify-center">
                 <div className="mx-auto max-w-xs">
                     <ResultInput showResult={showResult} resultString={resultString}/>
+                    {userGuesses.length > 0 ? (<div className="text-base font-semibold text-gray-600">You have found {userGuesses.length} words!</div>) : <div/>}
+                    {userGuesses.length > 0 ? (userGuesses.map((guess) => (<div className="text-base font-semibold text-gray-600">{guess}</div>))) : <div/>}
+                    {userPoints > 0 ? (<div className="text-base font-semibold text-gray-600">Score: {userPoints}</div>) : <div/>}
                 </div>
             </div>
         </div>
