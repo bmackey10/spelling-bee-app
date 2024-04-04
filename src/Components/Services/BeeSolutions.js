@@ -38,3 +38,19 @@ export const getAllBeeSolutionsByBeeID = (beeID) => {
       console.error("Error getting BeeSolutions by BeeID: ", error);
   });
 };
+
+export const getSolutionPoints = (currBee, inputWord) => {
+  const BeeSolutions = Parse.Object.extend("BeeSolutions");
+  const query = new Parse.Query(BeeSolutions);
+  console.log(currBee);
+  console.log(inputWord);
+  query.equalTo("beeID", currBee); // Assuming 'beeID' is the field that relates to the specific bee
+  query.equalTo("solution", inputWord);
+  return query.find().then((results) => {
+      // Returns array of BeeSolutions objects that have the specified BeeID and solution
+      return results[0].get("points"); // there should only be one result
+  }).catch((error) => {
+      // Handle any errors that occur
+      console.error("Error getting BeeSolutions by BeeID: ", error);
+  });
+};

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { getSpellingBeeById } from "../Services/SpellingBees.js"
-import WordInput from "../Forms/WordInput.js";
+import WordInput from "../Game/WordInput.js";
 import { useParams } from "react-router-dom";
 
 /* Get the letters for the particular spelling bee the user chose */
