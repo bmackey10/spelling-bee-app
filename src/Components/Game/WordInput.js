@@ -37,7 +37,7 @@ const WordInput = ({ beeLetters }) => {
                         let guessesArr = [];
                         results.map((result) => {
                             pointSum += result.get("pointsGiven");
-                            guessesArr.push(result.get("guess"))
+                            guessesArr.push(result.get("guess"));
                         });
                         setUserPoints(pointSum);
                         setUserGuesses(guessesArr);
@@ -49,10 +49,10 @@ const WordInput = ({ beeLetters }) => {
 
     function getResult(inputWord) {
         if (beeSolutions.includes(inputWord)) {
-            setResultString(`Great job! You found the word: ${inputWord}.`);
+            setResultString(`Great job! You found the solution: ${inputWord}.`);
             return true;
         } else {
-            setResultString("This is not a word.");
+            setResultString(`${inputWord} is not a solution.`);
             return false;
         }
     }
@@ -70,6 +70,10 @@ const WordInput = ({ beeLetters }) => {
         setInputWord(e.target.value.toUpperCase());
     };
 
+    const handleDelete = (e) => {
+        setInputWord((inputWord) => inputWord.slice(0, -1));
+    };
+
     const handleSubmit = (e) => {
         e.preventDefault();
 
@@ -80,7 +84,7 @@ const WordInput = ({ beeLetters }) => {
                     getCurrentUser().then((currUser) => {
                         addGuess(currUser, spellingBee, answerPoints, inputWord);
                         setUserPoints(userPoints + answerPoints);
-                        setUserGuesses(userGuesses.push(inputWord));
+                        setUserGuesses([...userGuesses, inputWord]);
                     })
                 })
             })
@@ -96,12 +100,15 @@ return (
     <div className="mx-auto max-w-2xl rounded-3xl ring-1 ring-gray-200 lg:flex lg:max-w-none overflow-hidden">
         <div className="p-8 sm:p-10 lg:flex-auto">
             <form>
-                <div className="grid grid-rows-3 grid-cols-4 sm:grid-cols-6 gap-4">
+                <div className="grid grid-rows-3 grid-cols-4 sm:grid-cols-6 gap-2">
                     <div className="col-span-2 col-start-2 sm:col-start-3">
-                        <input type="text" value={inputWord} onChange={handleInputChange} placeholder="Type or click" className="caret-bee-yellow border-0 bg-transparent text-black placeholder:text-gray-400 focus:ring-0 text-lg"/>
+                        <input type="text" value={inputWord} onChange={handleInputChange} placeholder="Type or click" className="caret-bee-yellow w-full border-0 bg-transparent text-black text-center placeholder:text-gray-400 focus:ring-0 text-lg"/>
                     </div>
                     <div className="col-span-4 sm:col-span-6 flex flex-wrap justify-between">{beeLetters.map((letter) => (<button type="button" className="bg-slate-200 hover:bg-slate-300 text-black hover:text-black rounded-full px-6 text-sm font-semibold" value={letter} onClick={handleClick}>{letter}</button>))}</div>
-                    <div className="col-span-2 col-start-2 sm:col-start-3 justify-self-center py-2">
+                    <div className="col-span-2 col-start-1 sm:col-start-2 justify-self-center py-2">
+                        <button type="button" onClick={handleDelete} className="w-min border-2 border-slate-200 bg-white hover:bg-slate-200 text-black hover:text-black rounded-full px-8 py-2 text-sm font-semibold">Delete</button>
+                    </div>
+                    <div className="col-span-2 col-start-3 sm:col-start-4 justify-self-center py-2">
                         <button type="submit" onClick={handleSubmit} className="w-min border-2 border-slate-200 bg-white hover:bg-slate-200 text-black hover:text-black rounded-full px-8 py-2 text-sm font-semibold">Enter</button>
                     </div>
                 </div>
@@ -111,8 +118,8 @@ return (
             <div className="lg:h-full rounded-2xl bg-white py-10 text-center ring-1 ring-inset ring-gray-200 lg:flex lg:flex-col lg:justify-center">
                 <div className="mx-auto max-w-xs">
                     <ResultInput showResult={showResult} resultString={resultString}/>
-                    {userGuesses.length > 0 ? (<div className="text-base font-semibold text-gray-600">You have found {userGuesses.length} words!</div>) : <div/>}
-                    {userGuesses.length > 0 ? (userGuesses.map((guess) => (<div className="text-base font-semibold text-gray-600">{guess}</div>))) : <div/>}
+                    <div className="text-base font-semibold text-gray-600">You have found {userGuesses.length} words.</div>
+                    {userGuesses.map((guess) => (<div className="text-base font-semibold text-gray-600">{guess}</div>))}
                     {userPoints > 0 ? (<div className="text-base font-semibold text-gray-600">Score: {userPoints}</div>) : <div/>}
                 </div>
             </div>

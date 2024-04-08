@@ -42,8 +42,6 @@ export const getAllBeeSolutionsByBeeID = (beeID) => {
 export const getSolutionPoints = (currBee, inputWord) => {
   const BeeSolutions = Parse.Object.extend("BeeSolutions");
   const query = new Parse.Query(BeeSolutions);
-  console.log(currBee);
-  console.log(inputWord);
   query.equalTo("beeID", currBee); // Assuming 'beeID' is the field that relates to the specific bee
   query.equalTo("solution", inputWord);
   return query.find().then((results) => {
