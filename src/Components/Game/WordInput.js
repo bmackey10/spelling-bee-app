@@ -11,10 +11,11 @@ import { getCurrentUser } from "../Services/AuthService.js";
 - checks if the word inputted by the user is one of the associated bee solutions
 */
 
-const WordInput = ({ beeLetters }) => {
+const WordInput = ({ beeLetters, centerLetter }) => {
     const [inputWord, setInputWord] = useState("");
     const { beeId } = useParams(); // beeId is the objectId from the URL
     const [beeSolutions, setBeeSolutions] = useState([]);
+    const [pangrams, setPangrams] = useState([]);
     const [showResult, setShowResult] = useState(false);
     const [resultString, setResultString] = useState("");
     const [userGuesses, setUserGuesses] = useState([]);
@@ -23,8 +24,11 @@ const WordInput = ({ beeLetters }) => {
     useEffect(() => {
         // Use the ID to get all the solutions for this specific spelling bee
         getSpellingBeeById(beeId).then((spellingBee) => {
-            getAllBeeSolutionsByBeeID(spellingBee).then((beeSolutions) => {
-                setBeeSolutions(beeSolutions.map((bee) => bee.get("solution")));
+            getAllBeeSolutionsByBeeID(spellingBee).then((solutions) => {
+                setBeeSolutions(solutions.map((solution) => solution.get("solution")));
+                // Find and set all pangrams
+                const foundPangrams = solutions.filter((solution) => solution.get("pangram") === true).map((solution) => solution.get("solution"));
+                setPangrams(foundPangrams);
             }).catch((error) => {
                 console.error('Error fetching Spelling Bee Solutions by ID:', error);
             });
@@ -48,7 +52,15 @@ const WordInput = ({ beeLetters }) => {
     }, [beeId]);
 
     function getResult(inputWord) {
-        if (beeSolutions.includes(inputWord)) {
+        if (inputWord.length < 4){
+            setResultString(`${inputWord} is too short.`);
+            return false;
+        }
+        else if (pangrams.includes(inputWord)){
+            setResultString(`Great job! You found the pangram: ${inputWord}.`);
+            return true;
+        }
+        else if (beeSolutions.includes(inputWord)) {
             setResultString(`Great job! You found the solution: ${inputWord}.`);
             return true;
         } else {
@@ -96,36 +108,103 @@ const WordInput = ({ beeLetters }) => {
         // Reset input word after submitting
     };
 
-return (
-    <div className="mx-auto max-w-2xl rounded-3xl ring-1 ring-gray-200 lg:flex lg:max-w-none overflow-hidden">
-        <div className="p-8 sm:p-10 lg:flex-auto">
-            <form>
-                <div className="grid grid-rows-3 grid-cols-4 sm:grid-cols-6 gap-2">
-                    <div className="col-span-2 col-start-2 sm:col-start-3">
-                        <input type="text" value={inputWord} onChange={handleInputChange} placeholder="Type or click" className="caret-bee-yellow w-full border-0 bg-transparent text-black text-center placeholder:text-gray-400 focus:ring-0 text-lg"/>
+    const circleContainerStyle = {
+        display: 'flex',
+        flexWrap: 'wrap',
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: '350px',
+        height: '350px',
+        position: 'relative',
+        borderRadius: '50%',
+        margin: 'auto',
+        background: '#FFF',
+        boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)' // A subtle shadow around the circle
+    };
+
+    const letterButtonStyle = (angle) => ({
+        position: 'absolute',
+        transform: `rotate(${angle}deg) translate(110px) rotate(-${angle}deg)`, // This places the buttons in a circle
+        width: '70px', // Size of the buttons
+        height: '70px',
+        borderRadius: '50%',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        fontSize: '1rem',
+    });
+
+    const centerLetterStyle = {
+        ...letterButtonStyle(0), // This resets any rotation on the center letter
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)' // This centers the button
+    };
+
+    return (
+        <div className="flex flex-col lg:flex-row mx-auto max-w-4xl bg-white rounded-xl overflow-hidden shadow-lg">
+            <div className="p-8 sm:p-10 lg:flex-auto">
+                <form onSubmit={handleSubmit} className="space-y-6">
+                    <div style={circleContainerStyle}>
+                        {/* Render the center letter */}
+                        <button
+                            type="button"
+                            style={centerLetterStyle}
+                            value={centerLetter}
+                            onClick={handleClick}
+                            className="bg-bee-yellow text-black rounded-full text-sm font-semibold focus:outline-none focus:ring"
+                        >
+                            {centerLetter}
+                        </button>
+                        {/* Render the surrounding letters */}
+                        {beeLetters.map((letter, index) => {
+                            // Exclude the center letter from this map
+                            if (letter !== centerLetter) {
+                                const angle = (360 / (beeLetters.length)) * index;
+                                return (
+                                    <button
+                                        key={letter}
+                                        type="button"
+                                        style={letterButtonStyle(angle)}
+                                        value={letter}
+                                        onClick={handleClick}
+                                        className="bg-slate-200 hover:bg-slate-300 text-black rounded-full text-sm font-semibold focus:outline-none focus:ring"
+                                    >
+                                        {letter}
+                                    </button>
+                                );
+                            }
+                            return null;
+                        })}
                     </div>
-                    <div className="col-span-4 sm:col-span-6 flex flex-wrap justify-between">{beeLetters.map((letter) => (<button type="button" className="bg-slate-200 hover:bg-slate-300 text-black hover:text-black rounded-full px-6 text-sm font-semibold" value={letter} onClick={handleClick}>{letter}</button>))}</div>
-                    <div className="col-span-2 col-start-1 sm:col-start-2 justify-self-center py-2">
-                        <button type="button" onClick={handleDelete} className="w-min border-2 border-slate-200 bg-white hover:bg-slate-200 text-black hover:text-black rounded-full px-8 py-2 text-sm font-semibold">Delete</button>
-                    </div>
-                    <div className="col-span-2 col-start-3 sm:col-start-4 justify-self-center py-2">
-                        <button type="submit" onClick={handleSubmit} className="w-min border-2 border-slate-200 bg-white hover:bg-slate-200 text-black hover:text-black rounded-full px-8 py-2 text-sm font-semibold">Enter</button>
-                    </div>
-                </div>
-            </form>
-        </div>
-        <div className="p-2 lg:mt-0 lg:w-full lg:max-w-md">
-            <div className="lg:h-full rounded-2xl bg-white py-10 text-center ring-1 ring-inset ring-gray-200 lg:flex lg:flex-col lg:justify-center">
-                <div className="mx-auto max-w-xs">
-                    <ResultInput showResult={showResult} resultString={resultString}/>
-                    <div className="text-base font-semibold text-gray-600">You have found {userGuesses.length} words.</div>
-                    {userGuesses.map((guess) => (<div className="text-base font-semibold text-gray-600">{guess}</div>))}
-                    {userPoints > 0 ? (<div className="text-base font-semibold text-gray-600">Score: {userPoints}</div>) : <div/>}
+                    <div className="text-center">
+                        <input
+                            type="text"
+                            value={inputWord}
+                            onChange={handleInputChange}
+                            placeholder="Type or click"
+                            className="mt-4 mb-2 caret-yellow-500 w-full border-0 bg-transparent text-black text-center placeholder:text-gray-400 focus:ring-0 text-lg"
+                        />
+                        <div className="flex justify-center space-x-4">
+                            <button type="button" onClick={handleDelete} className="px-8 py-2 border-2 border-slate-200 bg-white text-black rounded-full text-sm font-semibold">Delete</button>
+                            <button type="submit" className="px-8 py-2 border-2 border-slate-200 bg-white text-black rounded-full text-sm font-semibold">Enter</button>
+                        </div>
+                    </div>                    
+                </form>
+            </div>
+            <div className="p-2 lg:mt-0 lg:w-full lg:flex-1">
+                <div className="h-full rounded-xl bg-white py-10 text-center ring-1 ring-inset ring-gray-200 lg:flex lg:flex-col lg:justify-center">
+                    <ResultInput showResult={showResult} resultString={resultString} />
+                    <div className="text-base font-semibold text-gray-600">You have found {userGuesses.length} {userGuesses.length === 1 ? 'word' : 'words'}.</div>                    {userGuesses.map((guess, index) => (
+                        <div key={index} className="text-base font-semibold text-gray-600">{guess}</div>
+                    ))}
+                    {userPoints > 0 && (
+                        <div className="text-base font-semibold text-gray-600">Score: {userPoints}</div>
+                    )}
                 </div>
             </div>
         </div>
-    </div>
-);
+    );
 };
 
 export default WordInput;

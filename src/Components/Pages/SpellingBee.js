@@ -6,6 +6,7 @@ import { useParams } from "react-router-dom";
 /* Get the letters for the particular spelling bee the user chose */
 const SpellingBee = () => {
   const [beeLetters, setBeeLetters] = useState([]);
+  const [centerLetter, setCenterLetter] = useState([]);
   const { beeId } = useParams(); // beeId is the objectId from the URL
 
   useEffect(() => {
@@ -19,8 +20,9 @@ const SpellingBee = () => {
         spellingBee.get('letterFour'),
         spellingBee.get('letterFive'),
         spellingBee.get('letterSix'),
-        spellingBee.get('centerLetter'),
       ]);
+      // Set center letter
+      setCenterLetter([spellingBee.get('centerLetter')]);
     }).catch((error) => {
       console.error('Error fetching Spelling Bee by ID:', error);
       console.log(beeId);
@@ -30,7 +32,7 @@ const SpellingBee = () => {
   return (
     <div className="bg-white py-12 sm:py-16 px-16 sm:px-32 xl:px-48 h-full">
       <div className="mx-auto max-w-7xl">
-        <WordInput beeLetters={beeLetters}/>
+        <WordInput beeLetters={beeLetters} centerLetter={centerLetter}/>
       </div>
     </div>
   );
