@@ -20,10 +20,12 @@ export const createUser = (newUser) => {
     return user
         .signUp()
         .then((newUserSaved) => {
-            return newUserSaved;
+            // Successfully registered
+            return { success: true, user: newUserSaved };
         })
         .catch((error) => {
-            alert(`Error: ${error.message}`);
+            // Return the error message instead of alerting
+            return { success: false, error: error.message };
         });
 };
 
@@ -39,10 +41,12 @@ export const loginUser = (currUser) => {
     return user
         .logIn(user.email, user.password)
         .then((currUserSaved) => {
-            return currUserSaved;
+            // Successfully logged in
+            return { success: true, user: currUserSaved };
         })
         .catch((error) => {
-            alert(`Error: ${error.message}`);
+            // Return the error message instead of alerting
+            return { success: false, error: error.message };
         });
 };
 

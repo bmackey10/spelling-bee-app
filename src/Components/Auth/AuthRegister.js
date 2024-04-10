@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 /* Authentication Register Module */
 const AuthRegister = () => {
     const navigate = useNavigate();
+    const [registerError, setRegisterError] = useState("");
 
     const [newUser, setNewUser] = useState({
         firstName: "",
@@ -20,7 +21,6 @@ const AuthRegister = () => {
     // redirect already authenticated users back to home
     useEffect(() => {
         if (checkUser()) {
-            alert("You are already logged in");
             navigate("/");
         }
     }, [navigate]);
@@ -28,14 +28,12 @@ const AuthRegister = () => {
     // useEffect that run when changes are made to the state variable flags
     useEffect(() => {
         if (newUser && add) {
-            createUser(newUser).then((userCreated) => {
-                if (userCreated) {
-                    alert(
-                        `${userCreated.get(
-                            "firstName"
-                        )}, you successfully registered!`
-                    );
+            createUser(newUser).then((result) => {
+                if (result.success) {
                     navigate("/");
+                } else {
+                    // Set the error message from the response
+                    setRegisterError(result.error);
                 }
                 setAdd(false);
             });
@@ -67,6 +65,7 @@ const AuthRegister = () => {
                 onChange={onChangeHandler}
                 onSubmit={onSubmitHandler}
                 textValue={"Register for the Spelling Bee"}
+                errorMessage={registerError}
             />
         </div>
     );

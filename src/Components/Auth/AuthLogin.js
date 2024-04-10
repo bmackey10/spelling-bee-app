@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 /* Authentication Login Module */
 const AuthLogin = () => {
     const navigate = useNavigate();
+    const [loginError, setLoginError] = useState("");
 
     // redirect already authenticated users back to home
     const [currentUser, setCurrentUser] = useState({
@@ -18,7 +19,6 @@ const AuthLogin = () => {
 
     useEffect(() => {
         if (checkUser()) {
-            alert("You are already logged in");
             navigate("/");
         }
     }, [navigate]);
@@ -26,14 +26,12 @@ const AuthLogin = () => {
     // useEffect that run when changes are made to the state variable flags
     useEffect(() => {
         if (currentUser && add) {
-            loginUser(currentUser).then((userLoggedIn) => {
-                if (userLoggedIn) {
-                    alert(
-                        `${userLoggedIn.get(
-                            "firstName"
-                        )}, you successfully logged in!`
-                    );
+            loginUser(currentUser).then((result) => {
+                if (result.success) {
                     navigate("/");
+                } else {
+                    // Set the error message from the response
+                    setLoginError(result.error);
                 }
                 // redirect user to main app
                 setAdd(false);
@@ -67,6 +65,7 @@ const AuthLogin = () => {
                 onChange={onChangeHandler}
                 onSubmit={onSubmitHandler}
                 textValue={"Log In to the Spelling Bee"}
+                errorMessage={loginError}
             />
         </div>
     );

@@ -1,7 +1,7 @@
 import React from "react";
 
 /* Form to login/register from Feature 5 Kickoff Solution */
-const AuthForm = ({ user, isLogin, onChange, onSubmit, textValue }) => {
+const AuthForm = ({ user, isLogin, onChange, onSubmit, textValue, errorMessage }) => {
     return (
         <div className="flex items-start justify-center min-h-screen bg-white py-12 px-4 sm:px-6 lg:px-8">
             <div className="max-w-md w-full space-y-8">
@@ -81,6 +81,11 @@ const AuthForm = ({ user, isLogin, onChange, onSubmit, textValue }) => {
                             required
                         />
                     </div>
+                    {errorMessage && (
+                        <div className="mb-4 text-center text-sm text-red-600">
+                            {errorMessage}
+                        </div>
+                    )}
                     <div>
                         <button
                             type="submit"
