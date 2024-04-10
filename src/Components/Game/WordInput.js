@@ -205,8 +205,7 @@ const WordInput = ({ beeLetters, centerLetter, totalPoints }) => {
                     ))}
                 </div>
             </div>
-        </div>
-                    
+        </div>     
         </div>
     );
 };
