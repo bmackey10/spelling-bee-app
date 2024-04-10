@@ -22,8 +22,6 @@ const WordInput = ({ beeLetters, centerLetter, totalPoints }) => {
     const [userGuesses, setUserGuesses] = useState([]);
     const [userPoints, setUserPoints] = useState(0);
 
-    console.log(totalPoints);
-
     useEffect(() => {
         // Use the ID to get all the solutions for this specific spelling bee
         getSpellingBeeById(beeId).then((spellingBee) => {
@@ -42,7 +40,7 @@ const WordInput = ({ beeLetters, centerLetter, totalPoints }) => {
                 getAllUserGuessesByBeeID(spellingBee, currUser).then((results) => {
                         let pointSum = 0;
                         let guessesArr = [];
-                        results.map((result) => {
+                        results.forEach((result) => {
                             pointSum += result.get("pointsGiven");
                             guessesArr.push(result.get("guess"));
                         });
@@ -149,7 +147,7 @@ const WordInput = ({ beeLetters, centerLetter, totalPoints }) => {
         <div className="flex flex-col lg:flex-row mx-auto max-w-4xl bg-white rounded-xl overflow-hidden shadow-lg">
             <div className="p-8 sm:p-10 lg:flex-auto">
                 <form onSubmit={handleSubmit} className="space-y-6">
-                    <div style={circleContainerStyle}>
+                    <div style={circleContainerStyle} className="mx-auto lg:mx-0">
                         {/* Render the center letter */}
                         <button
                             type="button"
@@ -197,17 +195,14 @@ const WordInput = ({ beeLetters, centerLetter, totalPoints }) => {
                 </form>
             </div>
             <div className="p-2 lg:mt-0 lg:w-full lg:max-w-md">
-            <div className="lg:h-full rounded-2xl bg-white ring-1 ring-inset ring-gray-200 lg:flex lg:flex-col lg:justify-center">
-                <div className="p-10 text-center">
-                    <ProgressBar progress={userPoints} total={totalPoints}/>
+            <div className="lg:h-full rounded-2xl bg-white ring-1 ring-inset ring-gray-200 lg:flex lg:flex-col">
+                <div className="p-8 text-left">
+                    <ProgressBar progress={userPoints} total={totalPoints} userPoints={userPoints}/>
                     <ResultInput showResult={showResult} resultString={resultString} />
-                    <div className="text-base font-semibold text-gray-600">You have found {userGuesses.length} {userGuesses.length === 1 ? 'word' : 'words'}.</div>
+                    { userPoints < totalPoints ? (<div className="text-base font-semibold text-gray-600 pb-3 ">You have found {userGuesses.length} {userGuesses.length === 1 ? 'word' : 'words'}. Your score is {userPoints}.</div>) : (<div className="text-base font-semibold text-gray-600 pb-3 ">You have found all possible words! You won!</div>)}
                     {userGuesses.map((guess, index) => (
                         <div key={index} className="text-base font-semibold text-gray-600">{guess}</div>
                     ))}
-                    {userPoints > 0 && (
-                        <div className="text-base font-semibold text-gray-600">Score: {userPoints}</div>
-                    )}
                 </div>
             </div>
         </div>
