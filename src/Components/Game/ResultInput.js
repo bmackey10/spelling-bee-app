@@ -4,8 +4,8 @@ const ResultInput = ({ showResult, resultString }) => {
 
     if (showResult) {
         return (
-            <div className="text-base font-semibold text-gray-600">
-                <p>{resultString}</p>
+            <div className="text-base font-semibold text-gray-600 pb-3">
+                {resultString}
             </div>
         );
     } else {

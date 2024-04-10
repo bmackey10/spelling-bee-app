@@ -5,13 +5,14 @@ import { useParams } from "react-router-dom";
 import { getSpellingBeeById } from "../Services/SpellingBees.js";
 import { addGuess, getAllUserGuessesByBeeID } from "../Services/UserAnswers.js";
 import { getCurrentUser } from "../Services/AuthService.js";
+import ProgressBar from "./ProgressBar.js";
 
 /*
 - handles the word inputted by the user (either by text input or button clicks)
 - checks if the word inputted by the user is one of the associated bee solutions
 */
 
-const WordInput = ({ beeLetters, centerLetter }) => {
+const WordInput = ({ beeLetters, centerLetter, totalPoints }) => {
     const [inputWord, setInputWord] = useState("");
     const { beeId } = useParams(); // beeId is the objectId from the URL
     const [beeSolutions, setBeeSolutions] = useState([]);
@@ -39,7 +40,7 @@ const WordInput = ({ beeLetters, centerLetter }) => {
                 getAllUserGuessesByBeeID(spellingBee, currUser).then((results) => {
                         let pointSum = 0;
                         let guessesArr = [];
-                        results.map((result) => {
+                        results.forEach((result) => {
                             pointSum += result.get("pointsGiven");
                             guessesArr.push(result.get("guess"));
                         });
@@ -52,17 +53,19 @@ const WordInput = ({ beeLetters, centerLetter }) => {
     }, [beeId]);
 
     function getResult(inputWord) {
+
         if (inputWord.length < 4){
             setResultString(`${inputWord} is too short.`);
             return false;
-        }
-        else if (pangrams.includes(inputWord)){
+        } else if (pangrams.includes(inputWord)){
             setResultString(`Great job! You found the pangram: ${inputWord}.`);
             return true;
-        }
-        else if (beeSolutions.includes(inputWord)) {
+        } else if (beeSolutions.includes(inputWord) && !userGuesses.includes(inputWord)) {
             setResultString(`Great job! You found the solution: ${inputWord}.`);
             return true;
+        } else if (beeSolutions.includes(inputWord) && userGuesses.includes(inputWord)) {
+            setResultString(`You have already guessed ${inputWord}.`);
+            return false;
         } else {
             setResultString(`${inputWord} is not a solution.`);
             return false;
@@ -117,7 +120,6 @@ const WordInput = ({ beeLetters, centerLetter }) => {
         height: '350px',
         position: 'relative',
         borderRadius: '50%',
-        margin: 'auto',
         background: '#FFF',
         boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)' // A subtle shadow around the circle
     };
@@ -145,7 +147,7 @@ const WordInput = ({ beeLetters, centerLetter }) => {
         <div className="flex flex-col lg:flex-row mx-auto max-w-4xl bg-white rounded-xl overflow-hidden shadow-lg">
             <div className="p-8 sm:p-10 lg:flex-auto">
                 <form onSubmit={handleSubmit} className="space-y-6">
-                    <div style={circleContainerStyle}>
+                    <div style={circleContainerStyle} className="mx-auto lg:mx-0">
                         {/* Render the center letter */}
                         <button
                             type="button"
@@ -192,17 +194,18 @@ const WordInput = ({ beeLetters, centerLetter }) => {
                     </div>                    
                 </form>
             </div>
-            <div className="p-2 lg:mt-0 lg:w-full lg:flex-1">
-                <div className="h-full rounded-xl bg-white py-10 text-center ring-1 ring-inset ring-gray-200 lg:flex lg:flex-col lg:justify-center">
+            <div className="p-2 lg:mt-0 lg:w-full lg:max-w-md">
+            <div className="lg:h-full rounded-2xl bg-white ring-1 ring-inset ring-gray-200 lg:flex lg:flex-col">
+                <div className="p-8 text-left">
+                    <ProgressBar progress={userPoints} total={totalPoints} userPoints={userPoints}/>
                     <ResultInput showResult={showResult} resultString={resultString} />
-                    <div className="text-base font-semibold text-gray-600">You have found {userGuesses.length} {userGuesses.length === 1 ? 'word' : 'words'}.</div>                    {userGuesses.map((guess, index) => (
+                    { userPoints < totalPoints ? (<div className="text-base font-semibold text-gray-600 pb-3 ">You have found {userGuesses.length} {userGuesses.length === 1 ? 'word' : 'words'}. Your score is {userPoints}.</div>) : (<div className="text-base font-semibold text-gray-600 pb-3 ">You have found all possible words! You won!</div>)}
+                    {userGuesses.map((guess, index) => (
                         <div key={index} className="text-base font-semibold text-gray-600">{guess}</div>
                     ))}
-                    {userPoints > 0 && (
-                        <div className="text-base font-semibold text-gray-600">Score: {userPoints}</div>
-                    )}
                 </div>
             </div>
+        </div>     
         </div>
     );
 };
