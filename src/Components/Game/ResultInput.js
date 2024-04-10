@@ -1,5 +1,4 @@
 const ResultInput = ({ showResult, resultString }) => {
-
     // need to figure out how to check if the word doesn't use the correct letters
 
     if (showResult) {
@@ -9,9 +8,7 @@ const ResultInput = ({ showResult, resultString }) => {
             </div>
         );
     } else {
-        return (
-            <div></div>
-        )
+        return <div></div>;
     }
 };
 
