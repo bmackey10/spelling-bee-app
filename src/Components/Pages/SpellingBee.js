@@ -8,6 +8,7 @@ const SpellingBee = () => {
   const [beeLetters, setBeeLetters] = useState([]);
   const [centerLetter, setCenterLetter] = useState([]);
   const { beeId } = useParams(); // beeId is the objectId from the URL
+  const [totalPoints, setTotalPoints] = useState(0);
 
   useEffect(() => {
     // Use the ID to get the specific Spelling Bee
@@ -23,6 +24,7 @@ const SpellingBee = () => {
       ]);
       // Set center letter
       setCenterLetter([spellingBee.get('centerLetter')]);
+      setTotalPoints(spellingBee.get("totalPoints"));
     }).catch((error) => {
       console.error('Error fetching Spelling Bee by ID:', error);
       console.log(beeId);
@@ -32,7 +34,7 @@ const SpellingBee = () => {
   return (
     <div className="bg-white py-12 sm:py-16 px-16 sm:px-32 xl:px-48 h-full">
       <div className="mx-auto max-w-7xl">
-        <WordInput beeLetters={beeLetters} centerLetter={centerLetter}/>
+        <WordInput beeLetters={beeLetters} centerLetter={centerLetter} totalPoints={totalPoints}/>
       </div>
     </div>
   );
