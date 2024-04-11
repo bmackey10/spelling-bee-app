@@ -181,7 +181,7 @@ const WordInput = ({ beeLetters, centerLetter, totalPoints }) => {
                             style={centerLetterStyle}
                             value={centerLetter}
                             onClick={handleClick}
-                            className="bg-bee-yellow text-black rounded-full text-sm font-semibold focus:outline-none focus:ring"
+                            className="bg-bee-yellow hover:bg-bee-yellow-dark text-black rounded-full text-sm font-semibold focus:outline-none focus:ring"
                         >
                             {centerLetter}
                         </button>
@@ -248,7 +248,7 @@ const WordInput = ({ beeLetters, centerLetter, totalPoints }) => {
                             <div className="text-base font-semibold text-gray-600 pb-3 ">
                                 You have found {userGuesses.length}{" "}
                                 {userGuesses.length === 1 ? "word" : "words"}.
-                                Your score is {userPoints}.
+                                Score: {userPoints}
                             </div>
                         ) : (
                             <div className="text-base font-semibold text-gray-600 pb-3 ">
