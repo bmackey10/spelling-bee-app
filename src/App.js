@@ -10,6 +10,7 @@ import Header from "./Components/Header/Header.js";
 import AuthModule from "./Components/Auth/Auth.js";
 import AuthRegister from "./Components/Auth/AuthRegister";
 import AuthLogin from "./Components/Auth/AuthLogin";
+import HowToPlay from "./Components/Pages/HowToPlay";
 import Home from "./Components/Pages/Home.js";
 import Play from "./Components/Pages/Play.js";
 import SpellingBee from "./Components/Pages/SpellingBee.js";
@@ -28,6 +29,7 @@ const App = () => {
                     <Route path="/auth" element={<AuthModule />} />
                     <Route path="/auth/register" element={<AuthRegister />} />
                     <Route path="/auth/login" element={<AuthLogin />} />
+                    <Route path="/how-to-play" element={<ProtectedRoute element={HowToPlay} />}/>
                     <Route
                         path="/"
                         element={<ProtectedRoute element={Home} />}

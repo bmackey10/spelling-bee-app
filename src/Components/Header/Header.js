@@ -24,44 +24,44 @@ const Header = () => {
             });
     };
 
+
     return (
         <header className="bg-bee-yellow">
-            <nav className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8">
-                <div style={{ flex: 1 }}></div>
-
-                <Link
-                    to="/"
-                    className="text-sm font-semibold leading-6 text-gray-900 flex flex-row items-center justify-center"
-                    style={{ flex: 2 }}
-                >
-                    <h1 className="text-xl font-zilla-slab">
+            <nav className="mx-auto flex flex-col sm:flex-row max-w-7xl items-center justify-between p-6 lg:px-8">
+                {isAuthenticated && (
+                    <Link
+                        to="/how-to-play"
+                        className="text-sm text-black hover:text-gray-600 font-semibold mb-4 sm:mb-0"
+                    >
+                        How to Play
+                    </Link>
+                )}
+                <div className="flex-grow flex justify-center">
+                    <Link
+                        to="/"
+                        className="flex items-center text-xl font-bold font-zilla-slab text-black no-underline"
+                    >
                         Mary and Brooke's Spelling Bee
-                    </h1>
-                    <img
-                        className="h-6 w-auto"
-                        src={SpellingBeeCardIcon}
-                        alt=""
-                    />
-                </Link>
-
-                <div
-                    style={{
-                        flex: 1,
-                        display: "flex",
-                        justifyContent: "flex-end",
-                    }}
-                >
-                    {isAuthenticated && (
+                        <img
+                            className="h-6 w-auto ml-2"
+                            src={SpellingBeeCardIcon}
+                            alt=""
+                        />
+                    </Link>
+                </div>
+                {isAuthenticated && (
+                    <div className="flex justify-end">
                         <button
                             onClick={handleLogout}
                             className="border-2 border-black bg-black hover:bg-bee-yellow text-white hover:text-black rounded-full px-2 sm:px-8 py-2 text-sm font-semibold"
                         >
                             Log Out
                         </button>
-                    )}
-                </div>
+                    </div>
+                )}
             </nav>
         </header>
+
     );
 };
 
