@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const HowToPlay = () => {
     return (
         <div className="bg-white py-12 sm:py-16 px-16 sm:px-32 xl:px-48 h-screen">
@@ -21,6 +23,16 @@ const HowToPlay = () => {
                         <p className="mt-4 text-xl text-black font-zilla-slab">
                             Need more solving tips? <a href="https://www.nytimes.com/2021/12/09/crosswords/spellingbee-tips.html" className="text-blue-600 hover:underline">This article</a> can help.
                         </p>
+                        <div className="text-center">
+                            <Link to="/play">
+                                <button
+                                    type="button"
+                                    className="border-2 border-black bg-black hover:bg-white text-white hover:text-black rounded-full px-8 py-2 text-sm font-semibold"
+                                >
+                                    Play
+                                </button>
+                            </Link>
+                        </div>
                     </div>
                 </div>
             </div>

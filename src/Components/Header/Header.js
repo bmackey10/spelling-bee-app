@@ -31,7 +31,7 @@ const Header = () => {
                 {isAuthenticated && (
                     <Link
                         to="/how-to-play"
-                        className="text-sm text-black hover:text-gray-600 font-semibold mb-4 sm:mb-0"
+                        className="text-sm text-black hover:text-white font-semibold mb-4 sm:mb-0"
                     >
                         How to Play
                     </Link>
