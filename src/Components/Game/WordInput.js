@@ -20,6 +20,7 @@ const WordInput = ({ beeLetters, centerLetter, totalPoints }) => {
     const { beeId } = useParams(); // beeId is the objectId from the URL
     const [beeSolutions, setBeeSolutions] = useState([]);
     const [pangrams, setPangrams] = useState([]);
+    const [isPangram, setIsPangram] = useState(false);
     const [showResult, setShowResult] = useState(false);
     const [resultString, setResultString] = useState("");
     const [userGuesses, setUserGuesses] = useState([]);
@@ -67,25 +68,34 @@ const WordInput = ({ beeLetters, centerLetter, totalPoints }) => {
 
     function getResult(inputWord) {
         if (inputWord.length < 4) {
-            setResultString(`${inputWord} is too short.`);
+            setResultString("Too short");
+            setIsPangram(false);
+            return false;
+        } else if (!inputWord.includes(centerLetter)){
+            setResultString("Missing center letter");
+            setIsPangram(false);
             return false;
         } else if (pangrams.includes(inputWord)) {
-            setResultString(`Great job! You found the pangram: ${inputWord}.`);
+            setResultString("Pangram!");
+            setIsPangram(true);
             return true;
         } else if (
             beeSolutions.includes(inputWord) &&
             !userGuesses.includes(inputWord)
         ) {
-            setResultString(`Great job! You found the solution: ${inputWord}.`);
+            setResultString(`Great job!`);
+            setIsPangram(false);
             return true;
         } else if (
             beeSolutions.includes(inputWord) &&
             userGuesses.includes(inputWord)
         ) {
-            setResultString(`You have already guessed ${inputWord}.`);
+            setResultString(`Already found`);
+            setIsPangram(false);
             return false;
         } else {
-            setResultString(`${inputWord} is not a solution.`);
+            setResultString(`Not a word`);
+            setIsPangram(false);
             return false;
         }
     }
@@ -168,9 +178,14 @@ const WordInput = ({ beeLetters, centerLetter, totalPoints }) => {
     };
 
     return (
-        <div className="flex flex-col lg:flex-row mx-auto max-w-4xl bg-white rounded-xl overflow-hidden shadow-lg">
-            <div className="p-8 sm:p-10 lg:flex-auto">
-                <form onSubmit={handleSubmit} className="space-y-6">
+        <div className="flex flex-col lg:flex-row mx-auto max-w-4xl bg-white rounded-xl overflow-hidden shadow-lg it">
+            <div className="relative p-8 sm:p-10 lg:flex-auto">
+            <ResultInput
+                            showResult={showResult}
+                            resultString={resultString}
+                            isPangram={isPangram}
+                        />
+                <form onSubmit={handleSubmit} className="space-y-6 pt-10">
                     <div
                         style={circleContainerStyle}
                         className="mx-auto lg:mx-0"
@@ -240,10 +255,7 @@ const WordInput = ({ beeLetters, centerLetter, totalPoints }) => {
                             total={totalPoints}
                             userPoints={userPoints}
                         />
-                        <ResultInput
-                            showResult={showResult}
-                            resultString={resultString}
-                        />
+    
                         {userPoints < totalPoints ? (
                             <div className="text-base font-semibold text-gray-600 pb-3 ">
                                 You have found {userGuesses.length}{" "}
