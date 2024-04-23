@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
  
-## [Unreleased] - 2024-03-06
+## [Released] - 2024-03-06
  
 ### Added
 - Parse Models (SpellingBees and BeeSolutions) and functions for each model.
@@ -21,7 +21,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
 ### Current Errors
-- Refused to get unsafe header"access-control-expose-headers" printing to console.
+- Refused to get unsafe header "access-control-expose-headers" printing to console.
 
 ## [Unreleased] - 2024-03-24
 
@@ -32,13 +32,21 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
     - Logout Button within Header that appears when authenticated
     - Added logic to prevent user from accessing pages depending on their login status
 - Parse Service with authentication methods including signup, login, and logout
+- Play Component
+    - Progress bar shows the user's progress towards the total score for each game
+- Database Additions
+    - Columns were added to the database to track the score value of each word guess, the total score for a game, and if a guess is the pangram for the game
+    - Another data schema was added to track each user's guesses for each game
  
 ### Changed
 - Header now includes Logout button when user is authenticated
+- Play Component
+    - Letters are now arranged in the beehive structure similar to NYT with different coloring to distinguish the center letter
+    - Added styling to display user's guesses and feedback for each guess
 
 ### Fixed
 
 
 ### Current Errors
-- Refused to get unsafe header"access-control-expose-headers" printing to console.
+- Refused to get unsafe header "access-control-expose-headers" printing to console.
 - Warning about useEffect containing a call to setIsAuthenticated w/out a list of dependencies in Header
