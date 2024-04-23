@@ -42,9 +42,7 @@ const AuthRegister = () => {
 
     const onChangeHandler = (e) => {
         e.preventDefault();
-        console.log(e.target);
         const { name, value: newValue } = e.target;
-        console.log(newValue);
 
         setNewUser({
             ...newUser,
@@ -54,7 +52,6 @@ const AuthRegister = () => {
 
     const onSubmitHandler = (e) => {
         e.preventDefault();
-        console.log("submitted: ", e.target);
         setAdd(true);
     };
 

@@ -24,7 +24,6 @@ const Header = () => {
             });
     };
 
-
     return (
         <header className="bg-bee-yellow">
             <nav className="mx-auto flex flex-col sm:flex-row max-w-7xl items-center justify-between p-6 lg:px-8">
@@ -61,7 +60,6 @@ const Header = () => {
                 )}
             </nav>
         </header>
-
     );
 };
 

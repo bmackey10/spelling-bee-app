@@ -29,7 +29,6 @@ const SpellingBee = () => {
             })
             .catch((error) => {
                 console.error("Error fetching Spelling Bee by ID:", error);
-                console.log(beeId);
             });
     }, [beeId]);
 
